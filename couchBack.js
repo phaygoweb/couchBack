@@ -64,9 +64,9 @@ var http = require('http'),
 
         'createDoc': (function () {
             'use strict';
-            
+
             return function () {
-            
+
             };
         }())
 
