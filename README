@@ -1,11 +1,10 @@
 var cback = require('./couchBack.js');
 
-cback.connect({options});
+cback.init({options});
 
------
-
-options include
-'host': '',
-'port': '',
-'username': '',
-'password': ''
+options: {
+    'host': '',
+    'port': '',
+    'username': '',
+    'password': ''
+}
