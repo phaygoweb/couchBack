@@ -3,16 +3,18 @@ var http = require('http'),
 
         // Defaults for couch connection
         'couch': {
-            'host': 'localhost',
-            'port': '5984',
+            'host': '127.0.0.1',
+            'port': '80',
             'username': '',
-            'password': ''
+            'password': '',
+            'established': false
         },
 
-        'connect': (function () {
+        'init': (function () {
             'use strict';
 
-            var args = {};
+            var args = {},
+                req;
 
             return function () {
                 // Set local variable to function arguments
@@ -47,17 +49,27 @@ var http = require('http'),
 
                 console.log(couchBack.couch);
 
-                var req = http.request({
+                req = http.request({
                         host: couchBack.couch.host,
                         port: couchBack.couch.port,
-                        path: '/_session',
+                        path: '/',
                         method: 'GET'
                     }, function (res) {
-                        console.log('Status:', res.statusCode);
+                        console.log(res.statusCode);
+                        if (res.statusCode === 200) {
+                            couchBack.couch.established = true;
+                        } else {
+                            couchBack.couch.established = false;
+                        }
+                        
+                        //console.log(couchBack.couch);
                     });
+                
+                req.on('error', function(e) {
+                    console.log('Problem with request:', e.message);
+                });
 
                 req.end();
-
             };
 
         }()),
